@@ -9,8 +9,11 @@ def main():
     if datetime.today().day == 1:
         # This should match Dockerfile project root
         root_path = "/app/"
+        output_path = os.path.join(root_path,"output")
 
-        os.makedirs(os.path.join(root_path,"output"))
+        if os.path.exists(output_path):
+            shutil.rmtree(output_path)
+        os.makedirs(output_path)
 
         # Init
         se = SeleniumUtil(root_path)
@@ -26,6 +29,10 @@ def main():
 
         # Move to bind mount dir so host system can get zip
         shutil.move(os.path.join(root_path,file_name), "/download/"+file_name)
+
+        if os.path.exists(output_path):
+            shutil.rmtree(output_path)
+        os.makedirs(output_path)
 
 def schedule_job():
     schedule.every().day.at("10:00").do(main)
