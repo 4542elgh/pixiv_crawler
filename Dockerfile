@@ -14,7 +14,7 @@ RUN wget --no-verbose -O ./driver.zip https://chromedriver.storage.googleapis.co
     && 7z x ./driver.zip \
     && rm driver.zip LICENSE.chromedriver
 
-COPY main.py seleniumUtil.py .
+COPY main.py seleniumUtil.py ./
 
 CMD python -u main.py
 # Trigger change
