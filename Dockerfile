@@ -17,4 +17,3 @@ RUN wget --no-verbose -O ./driver.zip https://chromedriver.storage.googleapis.co
 COPY main.py seleniumUtil.py ./
 
 CMD python -u main.py
-# trigger workflow
