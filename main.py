@@ -4,6 +4,7 @@ import shutil
 import os
 import schedule
 import time
+import requests
 
 def main():
     if datetime.today().day == 1:
@@ -33,6 +34,17 @@ def main():
         if os.path.exists(output_path):
             shutil.rmtree(output_path)
         os.makedirs(output_path)
+
+        notify_endpoint = "http://tasks.proxmox-self_notifier:88/send"
+        json = {
+            "sender":"4542elgh@gmail.com",
+            "recipient":"4542elgh@gmail.com",
+            "send_method":"email,discord",
+            "subject":"Pixiv monthly crawler finished",
+            "payload":"Pixiv monthly crawler finished and stored under "+"\\\\fiber.home.lan\\Photo\\Pixiv\\"+file_name,
+        }
+        requests.post(notify_endpoint, json)
+
 
 def schedule_job():
     schedule.every().day.at("10:00").do(main)

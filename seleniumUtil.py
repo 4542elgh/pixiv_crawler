@@ -47,7 +47,7 @@ class SeleniumUtil:
         month = datetime.now().strftime("%Y%m")+"01"
         self.driver.get("https://www.pixiv.net/ranking.php?mode=monthly&date="+month)
 
-        for i in range(100):
+        for i in range(5):
             if i == 40 or i == 60 or i == 80:
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             # Catch exception if an image is a comic series, skip to next id
