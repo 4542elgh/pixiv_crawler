@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pickle
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import random
 
@@ -29,7 +29,7 @@ class SeleniumUtil:
         self.output = os.path.join(self.root_path,"output")
 
     def load_cookies(self):
-        self.driver.get("https://www.pixiv.net/en/")
+        self.driver.get("https://www.pixiv.net/ranking.php")
 
         print("Getting cookies from ./cookies.pkl")
         selenium_cookies = pickle.load(open(os.path.join(self.root_path, "cookies.pkl"), "rb"))
@@ -40,11 +40,14 @@ class SeleniumUtil:
         self.cookies = ''
         for cookie in selenium_cookies:
             self.cookies += '%s=%s;' % (cookie['name'], cookie['value'])
+        self.driver.refresh()
 
     def pixiv_monthly_rank(self):
         # Get first day of the month and fetch from there
         print("Going to Pixiv Monthly Ranking")
-        month = datetime.now().strftime("%Y%m")+"01"
+
+        # Need to be T-1 day so it doenst error out
+        month = (datetime.now() - timedelta(days=1)).strftime("%Y%m%d")
         self.driver.get("https://www.pixiv.net/ranking.php?mode=monthly&date="+month)
 
         for i in range(100):
