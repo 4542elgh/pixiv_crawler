@@ -47,7 +47,7 @@ class SeleniumUtil:
         print("Going to Pixiv Monthly Ranking")
 
         # Need to be T-1 day so it doenst error out
-        month = (datetime.now() - timedelta(days=1)).strftime("%Y%m%d")
+        month = (datetime.now() - timedelta(days=2)).strftime("%Y%m%d")
         self.driver.get("https://www.pixiv.net/ranking.php?mode=monthly&date="+month)
 
         for i in range(100):
