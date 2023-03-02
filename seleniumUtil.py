@@ -50,13 +50,15 @@ class SeleniumUtil:
         month = (datetime.now() - timedelta(days=2)).strftime("%Y%m%d")
         self.driver.get("https://www.pixiv.net/ranking.php?mode=monthly&date="+month)
 
-        for i in range(100):
-            if i == 40 or i == 60 or i == 80:
+        for i in range(90,100):
+            if i == 10 or i == 20 or i == 30 or i == 40 or i == 50 or i == 60 or i == 70 or i == 80 or i == 90:
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(5)
             # Catch exception if an image is a comic series, skip to next id
             try:
                 self.driver.find_element(By.XPATH, '//*[@id="'+str(i+1)+'"]/div[2]/a[1]').click()
-            except:
+            except e:
+                print(e)
                 continue
 
             print("Page",i+1)
@@ -69,7 +71,12 @@ class SeleniumUtil:
             print("Wait for image frame to load")
             WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="root"]/div[2]/div/div[2]/div/div[1]/main')))
 
-            print("Check Load More and Read More button")
+            nsfw_button = self.driver.find_elements(By.XPATH, '//*[@id="root"]/div[2]/div/div[2]/div/div[1]/main/section/div[1]/div/figure/div/div[1]/div/div/button')
+
+            if len(nsfw_button)>0:
+                print("Click on NSFW button")
+                nsfw_button[0].click()
+
             # Get load more and read more button, if they have such button then it contain more than one image
             load_more = self.driver.find_elements(By.XPATH, '//*[@id="root"]/div[2]/div/div[2]/div/div[1]/main/section/div[1]/div/div[4]/div/div[2]/button')
 
@@ -88,6 +95,7 @@ class SeleniumUtil:
 
             # Skip comic and go next
             elif len(read_more)>0:
+                print("Skip comic")
                 pass
 
             # Just get single image
