@@ -50,7 +50,8 @@ class SeleniumUtil:
         month = (datetime.now() - timedelta(days=2)).strftime("%Y%m%d")
         self.driver.get("https://www.pixiv.net/ranking.php?mode=monthly&date="+month)
 
-        for i in range(90,100):
+        for i in range(100):
+            # Scroll down 1 page when finish download 10 images
             if i == 10 or i == 20 or i == 30 or i == 40 or i == 50 or i == 60 or i == 70 or i == 80 or i == 90:
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(5)

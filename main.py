@@ -26,7 +26,13 @@ def main():
         # 7zip into .zip file (.7z file seem to corrupt for some reason)
         date = str(datetime.now())
         file_name = "Pixiv_"+date.split("-")[1]+"_"+date.split("-")[0]+"_Monthly_Rank.zip"
-        os.system("7z a "+file_name+" "+root_path+"output/* -p"+os.getenv("ZIP_PASSWORD"))
+
+        if os.path.exists("/run/secrets/zip-pass"):
+            passwd = open("/run/secrets/zip-pass").read()
+        else:
+            passwd = ""
+
+        os.system("7z a "+file_name+" "+root_path+"output/* -p"+passwd)
 
         # Move to bind mount dir so host system can get zip
         shutil.move(os.path.join(root_path,file_name), "/download/"+file_name)
@@ -56,4 +62,3 @@ def schedule_job():
 
 if __name__ == "__main__":
     schedule_job()
-    # main()
