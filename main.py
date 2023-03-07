@@ -51,7 +51,6 @@ def main():
         }
         requests.post(notify_endpoint, json)
 
-
 def schedule_job():
     schedule.every().day.at("10:00").do(main)
     while True:

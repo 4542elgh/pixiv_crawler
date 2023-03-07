@@ -32,7 +32,7 @@ class SeleniumUtil:
         self.driver.get("https://www.pixiv.net/ranking.php")
 
         print("Getting cookies from ./cookies.pkl")
-        selenium_cookies = pickle.load(open(os.path.join(self.root_path, "cookies.pkl"), "rb"))
+        selenium_cookies = pickle.load(open(os.path.join("/config", "cookies.pkl"), "rb"))
         for cookie in selenium_cookies:
             self.driver.add_cookie(cookie)
 
