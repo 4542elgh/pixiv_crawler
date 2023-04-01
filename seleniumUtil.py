@@ -52,14 +52,13 @@ class SeleniumUtil:
 
         for i in range(100):
             # Scroll down 1 page when finish download 10 images
-            if i == 10 or i == 20 or i == 30 or i == 40 or i == 50 or i == 60 or i == 70 or i == 80 or i == 90:
+            if i == 40 or i == 80:
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 time.sleep(5)
             # Catch exception if an image is a comic series, skip to next id
             try:
                 self.driver.find_element(By.XPATH, '//*[@id="'+str(i+1)+'"]/div[2]/a[1]').click()
-            except e:
-                print(e)
+            except:
                 continue
 
             print("Page",i+1)
