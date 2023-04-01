@@ -43,16 +43,25 @@ def main():
 
         notify_endpoint = "http://tasks.proxmox-self_notifier:88/send"
         json = {
-            "sender":"4542elgh@gmail.com",
-            "recipient":"4542elgh@gmail.com",
-            "send_method":"email,discord",
-            "subject":"Pixiv monthly crawler finished",
-            "payload":"Pixiv monthly crawler finished and stored under "+"\\\\fiber.home.lan\\Photo\\Pixiv\\"+file_name,
+            "send_method": "discord",
+            "payload": "Pixiv monthly crawler finished and stored under "+"\\\\fiber.home.lan\\Photo\\Pixiv\\"+file_name,
+            "channel": "manga"
+        }
+        requests.post(notify_endpoint, json)
+
+def reminder():
+    if datetime.today().day == 1:
+        notify_endpoint = "http://tasks.proxmox-self_notifier:88/send"
+        json = {
+            "send_method": "discord",
+            "payload": "Pixiv crawler will start in an hour, please have an up to date cookies.pkl in /WDZFS/Docker/self/pixiv_crawler",
+            "channel": "manga"
         }
         requests.post(notify_endpoint, json)
 
 def schedule_job():
     schedule.every().day.at("10:00").do(main)
+    schedule.every().day.at("09:00").do(reminder)
     while True:
         schedule.run_pending()
 
